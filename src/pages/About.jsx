@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import useReveal from '../hooks/useReveal'
-import teamImg1 from '../assets/team/IMG_3561.jpg'
-import teamImg2 from '../assets/team/event3.jpg'
+import cePhoto from '../assets/team/ceo.jpeg'
+import adminPhoto from '../assets/team/Administrator.jpeg'
+import coordinatorPhoto from '../assets/team/Program Coordinator.jpeg'
 
 const values = [
   { icon: '✝', title: 'Scripture-Centered', desc: 'Every program, resource, and initiative is rooted in biblical truth and the transformative power of God\'s Word.' },
@@ -13,9 +14,9 @@ const values = [
 ]
 
 const team = [
-  { name: 'Rev. Samuel Adeyemi', role: 'Founder & Executive Director', photo: teamImg1 },
-  { name: 'Mrs. Grace Okonkwo', role: 'Director of Programs', photo: teamImg2 },
-  { name: 'Dr. Emmanuel Bello', role: 'Head of Education', photo: null },
+  { name: 'Chidinma Kalu', role: 'Chief Executive Officer', photo: cePhoto, featured: true },
+  { name: 'Patience Oluseye', role: 'Administrator', photo: adminPhoto },
+  { name: 'Mr. Solomon', role: 'Program Coordinator', photo: coordinatorPhoto },
 ]
 
 export default function About() {
@@ -139,17 +140,17 @@ export default function About() {
             <h2 className="font-heading text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold leading-tight tracking-tight">Meet Our Team</h2>
             <p className="text-text-muted mt-3 leading-relaxed">A passionate group of educators, ministers, and community leaders committed to transforming lives through scripture.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {team.map(({ name, role, photo }) => (
-              <div key={name} className="text-center bg-white border border-border-col rounded-2xl p-8 hover:shadow-bp-md transition-all duration-300 reveal">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-center">
+            {team.map(({ name, role, photo, featured }) => (
+              <div key={name} className={`text-center bg-white border border-border-col rounded-2xl hover:shadow-bp-lg hover:-translate-y-2 transition-all duration-300 reveal group ${featured ? 'p-10 shadow-bp-sm scale-105' : 'p-8'}`}>
                 {photo ? (
-                  <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-light-blue">
-                    <img src={photo} alt={name} className="w-full h-full object-cover object-top" loading="lazy" />
+                  <div className={`rounded-full overflow-hidden mx-auto mb-5 border-4 border-light-blue group-hover:border-primary-blue transition-all duration-300 group-hover:scale-105 ${featured ? 'w-48 h-48' : 'w-40 h-40'}`}>
+                    <img src={photo} alt={name} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" loading="lazy" />
                   </div>
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-light-blue flex items-center justify-center text-4xl mx-auto mb-4">👨‍🏫</div>
+                  <div className={`rounded-full bg-light-blue flex items-center justify-center text-4xl mx-auto mb-5 group-hover:scale-105 transition-all duration-300 ${featured ? 'w-48 h-48' : 'w-40 h-40'}`}>👨‍🏫</div>
                 )}
-                <h4 className="font-semibold text-gray-900 mb-1">{name}</h4>
+                <h4 className={`font-semibold text-gray-900 mb-1 ${featured ? 'text-lg' : ''}`}>{name}</h4>
                 <span className="text-sm text-text-muted">{role}</span>
               </div>
             ))}

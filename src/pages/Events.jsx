@@ -3,32 +3,34 @@ import { Link } from 'react-router-dom'
 import useReveal from '../hooks/useReveal'
 
 const eventGlob = import.meta.glob('../assets/events/*.jpg', { eager: true })
-const galleryImages = Object.values(eventGlob).map(m => m.default)
+const importedImages = Object.values(eventGlob).map(m => m.default)
 
 const publicGallery = [
   '/assets/images/events/3..jpeg',
   '/assets/images/events/IMG-20250917-WA0009.jpg.jpeg',
   '/assets/images/events/IMG_3582.png',
 ]
-const allGalleryImages = [...galleryImages, ...publicGallery]
+
+const july2025Gallery = [...importedImages, ...publicGallery]
 
 const events = [
-  { day: '22', month: 'May', year: '2025', type: 'Workshop', title: 'How to Study Your Bible Effectively', venue: 'Abuja Community Centre', time: '10:00 AM', desc: 'A practical, hands-on workshop teaching proven methods for deeper Bible study — from inductive study to Scripture memorization.' },
-  { day: '07', month: 'Jun', year: '2025', type: 'Outreach', title: 'Rural Scripture Distribution Drive', venue: 'Kuje, Abuja', time: '8:00 AM', desc: 'Join our team as we travel to Kuje and surrounding villages to distribute Bibles and conduct open-air scripture sessions.' },
-  { day: '15', month: 'Jun', year: '2025', type: 'Conference', title: 'Annual Biblepeedia Educators Summit', venue: 'Transcorp Hilton, Abuja', time: '9:00 AM', desc: 'Our flagship annual event bringing together educators, church leaders, and youth workers to share best practices in scripture education.' },
-  { day: '29', month: 'Jun', year: '2025', type: 'Youth', title: 'Youth Bible Bowl Competition', venue: 'National Ecumenical Centre', time: '11:00 AM', desc: 'An exciting inter-school Bible knowledge competition for students aged 10–18, with prizes for the top three teams.' },
-  { day: '12', month: 'Jul', year: '2025', type: 'Training', title: 'Sunday School Teachers Training', venue: 'Biblepeedia HQ, Abuja', time: '9:00 AM', desc: 'A one-day intensive training equipping Sunday school teachers with modern teaching methods, curriculum resources, and classroom management skills.' },
-  { day: '20', month: 'Jul', year: '2025', type: 'Community', title: 'Open-Air Scripture Evening', venue: 'Millennium Park, Abuja', time: '5:00 PM', desc: 'A free, family-friendly open-air gathering featuring live worship, scripture recitations, and community fellowship.' },
+  {
+    day: '14', month: 'Jul', year: '2025', type: 'Quiz',
+    title: 'Biblepeedia Quiz Competition',
+    venue: 'Abuja', time: '10:00 AM',
+    desc: 'Our first-ever Biblepeedia event — a lively and Spirit-filled quiz competition bringing together young people to celebrate the Word of God. A day of learning, fellowship, and unforgettable memories.',
+    gallery: july2025Gallery,
+    upcoming: false,
+  },
+  {
+    day: '06', month: 'Jun', year: '2026', type: 'Quiz',
+    title: 'Biblepeedia Quiz Competition',
+    venue: 'Abuja', time: '10:00 AM',
+    desc: 'The second edition of the Biblepeedia Quiz Competition — another Spirit-filled day of scripture, knowledge, and celebration for young people across Abuja. Stay tuned for more details.',
+    gallery: [],
+    upcoming: true,
+  },
 ]
-
-const typeColors = {
-  Workshop: 'bg-blue-100 text-blue-700',
-  Outreach: 'bg-green-100 text-green-700',
-  Conference: 'bg-purple-100 text-purple-700',
-  Youth: 'bg-yellow-100 text-yellow-700',
-  Training: 'bg-orange-100 text-orange-700',
-  Community: 'bg-pink-100 text-pink-700',
-}
 
 function RegisterModal({ event, onClose }) {
   const [name, setName] = useState('')
@@ -90,8 +92,11 @@ function RegisterModal({ event, onClose }) {
 
 export default function Events() {
   useReveal()
+  const [expandedEvent, setExpandedEvent] = useState(null)
   const [activeEvent, setActiveEvent] = useState(null)
   const [lightbox, setLightbox] = useState(null)
+
+  const PREVIEW_COUNT = 4
 
   return (
     <>
@@ -112,60 +117,118 @@ export default function Events() {
         </div>
       </div>
 
-      {/* Events Grid */}
+      {/* Events List */}
       <section className="py-24 px-[5vw]">
-        <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event) => (
-            <div key={event.title} className="bg-white border border-border-col rounded-2xl p-6 hover:shadow-bp-lg hover:-translate-y-1 transition-all duration-300 reveal flex flex-col">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-16 h-16 bg-primary-blue rounded-xl flex flex-col items-center justify-center text-white flex-shrink-0">
-                  <span className="font-heading font-bold text-2xl leading-none">{event.day}</span>
-                  <span className="text-[10px] opacity-80 uppercase tracking-wide">{event.month}</span>
-                </div>
-                <div>
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${typeColors[event.type] || 'bg-gray-100 text-gray-600'}`}>{event.type}</span>
-                  <p className="text-xs text-text-muted mt-2">{event.year}</p>
-                </div>
-              </div>
-              <h4 className="font-semibold text-gray-900 mb-2 leading-snug">{event.title}</h4>
-              <p className="text-text-muted text-sm mb-1">📍 {event.venue}</p>
-              <p className="text-text-muted text-sm mb-4">🕐 {event.time}</p>
-              <p className="text-text-secondary text-sm leading-relaxed flex-1 mb-5">{event.desc}</p>
-              <button
-                onClick={() => setActiveEvent(event)}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-dark border border-primary-gold/40 rounded-full px-4 py-2 cursor-pointer bg-transparent hover:bg-primary-gold hover:text-gray-900 transition-all duration-200 self-start"
-              >
-                Register →
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+        <div className="max-w-container mx-auto space-y-8">
+          {events.map((event) => {
+            const key = `${event.day}-${event.month}-${event.year}`
+            const isOpen = expandedEvent === key
+            const previewImgs = event.gallery.slice(0, PREVIEW_COUNT)
+            const remaining = event.gallery.length - PREVIEW_COUNT
 
-      {/* Photo Gallery */}
-      <section className="py-20 px-[5vw] bg-surface">
-        <div className="max-w-container mx-auto">
-          <div className="text-center mb-12 reveal">
-            <span className="inline-block text-primary-blue text-xs font-semibold tracking-[0.1em] uppercase mb-3">Our Moments</span>
-            <h2 className="font-heading text-[clamp(1.8rem,3.5vw,2.4rem)] font-bold leading-tight tracking-tight">Event Gallery</h2>
-            <p className="text-text-muted mt-3 leading-relaxed">Winners, celebrations, and moments that matter.</p>
-          </div>
-          <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-            {allGalleryImages.map((src, i) => (
+            return (
               <div
-                key={i}
-                className="break-inside-avoid overflow-hidden rounded-xl cursor-pointer group reveal"
-                onClick={() => setLightbox(src)}
+                key={key}
+                className={`bg-white border border-border-col rounded-2xl overflow-hidden shadow-bp-sm transition-all duration-300 reveal ${event.upcoming ? 'opacity-60' : ''}`}
               >
-                <img
-                  src={src}
-                  alt={`Event highlight ${i + 1}`}
-                  className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
+                {/* Collapsed Header — always visible, click to expand */}
+                <button
+                  className="w-full text-left p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-5 cursor-pointer bg-transparent border-0 hover:bg-gray-50/60 transition-colors duration-200"
+                  onClick={() => setExpandedEvent(isOpen ? null : key)}
+                >
+                  {/* Date block */}
+                  <div className={`w-20 h-20 rounded-xl flex flex-col items-center justify-center text-white flex-shrink-0 ${event.upcoming ? 'bg-gray-400' : 'bg-primary-blue'}`}>
+                    <span className="font-heading font-bold text-3xl leading-none">{event.day}</span>
+                    <span className="text-[11px] opacity-80 uppercase tracking-wide mt-0.5">{event.month}</span>
+                    <span className="text-[10px] opacity-60 tracking-wide">{event.year}</span>
+                  </div>
+
+                  {/* Title + meta */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-700">{event.type}</span>
+                      {event.upcoming && (
+                        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 border border-gray-200">Upcoming</span>
+                      )}
+                    </div>
+                    <h4 className="font-heading text-xl font-bold text-gray-900 leading-snug mb-1">{event.title}</h4>
+                    <div className="flex flex-wrap gap-4 text-sm text-text-muted">
+                      <span>📍 {event.venue}</span>
+                      <span>🕐 {event.time}</span>
+                    </div>
+                  </div>
+
+                  {/* Preview thumbnails */}
+                  {previewImgs.length > 0 && (
+                    <div className="hidden sm:flex items-center gap-1.5 flex-shrink-0">
+                      {previewImgs.map((src, i) => (
+                        <div key={i} className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
+                          <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" />
+                        </div>
+                      ))}
+                      {remaining > 0 && (
+                        <div className="w-14 h-14 rounded-lg bg-light-blue flex items-center justify-center flex-shrink-0">
+                          <span className="text-xs font-bold text-primary-blue">+{remaining}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Chevron */}
+                  <div className={`flex-shrink-0 text-text-muted transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </button>
+
+                {/* Expanded Panel */}
+                {isOpen && (
+                  <div className="border-t border-border-col px-6 sm:px-8 pb-8 pt-6">
+                    {/* Description */}
+                    <p className="text-text-secondary text-sm leading-relaxed mb-6">{event.desc}</p>
+
+                    {/* Register button for upcoming */}
+                    {event.upcoming && (
+                      <button
+                        onClick={() => setActiveEvent(event)}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-dark border border-primary-gold/40 rounded-full px-4 py-2 cursor-pointer bg-transparent hover:bg-primary-gold hover:text-gray-900 transition-all duration-200 mb-6"
+                      >
+                        Register →
+                      </button>
+                    )}
+
+                    {/* Full gallery */}
+                    {event.gallery.length > 0 ? (
+                      <>
+                        <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-4">Event Gallery</p>
+                        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
+                          {event.gallery.map((src, i) => (
+                            <div
+                              key={i}
+                              className="break-inside-avoid overflow-hidden rounded-xl cursor-pointer group"
+                              onClick={() => setLightbox(src)}
+                            >
+                              <img
+                                src={src}
+                                alt={`${event.title} photo ${i + 1}`}
+                                className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                loading="lazy"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="border-2 border-dashed border-gray-200 rounded-xl py-10 text-center">
+                        <p className="text-text-muted text-sm">Photos will appear here after the event.</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
       </section>
 

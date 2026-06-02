@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const links = [
-  { to: '/about',    label: 'About' },
-  { to: '/programs', label: 'Programs' },
-  { to: '/events',   label: 'Events' },
-  { to: '/donate',   label: 'Donate' },
-  { to: '/contact',  label: 'Contact' },
+  { to: '/about',   label: 'About' },
+  { to: '/events',  label: 'Events' },
+  { to: '/donate',  label: 'Donate' },
+  { to: '/contact', label: 'Contact' },
 ]
 
 export default function Navbar() {

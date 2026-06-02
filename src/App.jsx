@@ -3,7 +3,6 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
-import Programs from './pages/Programs'
 import Events from './pages/Events'
 import Donate from './pages/Donate'
 import Contact from './pages/Contact'
@@ -25,7 +24,6 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/programs" element={<Programs />} />
           <Route path="/events" element={<Events />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/contact" element={<Contact />} />

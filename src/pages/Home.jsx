@@ -34,9 +34,8 @@ const programsPreview = [
 ]
 
 const eventsPreview = [
-  { day: '22', month: 'May', type: 'Workshop', title: 'How to Study Your Bible Effectively', venue: 'Abuja Community Centre · 10:00 AM' },
-  { day: '07', month: 'Jun', type: 'Outreach', title: 'Rural Scripture Distribution Drive', venue: 'Kuje, Abuja · 8:00 AM' },
-  { day: '15', month: 'Jun', type: 'Conference', title: 'Annual Biblepeedia Educators Summit', venue: 'Transcorp Hilton, Abuja · 9:00 AM' },
+  { day: '14', month: 'Jul', year: '2025', type: 'Quiz', title: 'Biblepeedia Quiz Competition', venue: 'Abuja · 10:00 AM', upcoming: false },
+  { day: '06', month: 'Jun', year: '2026', type: 'Quiz', title: 'Biblepeedia Quiz Competition', venue: 'Abuja · 10:00 AM', upcoming: true },
 ]
 
 const heroSlides = [
@@ -81,8 +80,8 @@ export default function Home() {
             schools, communities, and digital outreach across Africa.
           </p>
           <div className="flex gap-3 flex-wrap mb-12">
-            <Link to="/programs" className="inline-flex items-center gap-2 bg-primary-blue text-white font-semibold text-sm px-6 py-3 rounded-lg no-underline hover:bg-dark-blue transition-all duration-200 hover:-translate-y-px">
-              Explore Our Programs →
+            <Link to="/about" className="inline-flex items-center gap-2 bg-primary-blue text-white font-semibold text-sm px-6 py-3 rounded-lg no-underline hover:bg-dark-blue transition-all duration-200 hover:-translate-y-px">
+              Learn More →
             </Link>
             <Link to="/about" className="inline-flex items-center gap-2 border-2 border-primary-blue text-primary-blue font-semibold text-sm px-6 py-3 rounded-lg no-underline hover:bg-light-blue transition-all duration-200">
               Our Story
@@ -210,8 +209,8 @@ export default function Home() {
             <h2 className="font-heading text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold leading-tight tracking-tight mb-3">Programs &amp; Initiatives</h2>
             <p className="text-text-muted max-w-md leading-relaxed">Six transformative programs designed to educate, empower, and equip communities with a deeper understanding of scripture.</p>
           </div>
-          <Link to="/programs" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-blue no-underline hover:gap-3 transition-all duration-200 whitespace-nowrap">
-            View All Programs →
+          <Link to="/about" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-blue no-underline hover:gap-3 transition-all duration-200 whitespace-nowrap">
+            Learn More →
           </Link>
         </div>
 
@@ -224,7 +223,7 @@ export default function Home() {
               </div>
               <h3 className="font-heading text-lg font-bold text-gray-900 mb-3">{title}</h3>
               <p className="text-text-muted text-sm leading-relaxed flex-1">{desc}</p>
-              <Link to="/programs" className="inline-flex items-center gap-1 text-sm font-semibold text-primary-blue no-underline mt-4 hover:gap-2 transition-all duration-200">
+              <Link to="/about" className="inline-flex items-center gap-1 text-sm font-semibold text-primary-blue no-underline mt-4 hover:gap-2 transition-all duration-200">
                 Learn more →
               </Link>
             </div>
@@ -237,9 +236,9 @@ export default function Home() {
         {/* Header row */}
         <div className="max-w-container mx-auto flex flex-wrap items-end justify-between gap-6 mb-12 reveal">
           <div>
-            <span className="inline-block text-primary-blue text-xs font-semibold tracking-[0.1em] uppercase mb-3">Upcoming</span>
+            <span className="inline-block text-primary-blue text-xs font-semibold tracking-[0.1em] uppercase mb-3">Events</span>
             <h2 className="font-heading text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold leading-tight tracking-tight mb-3">Events &amp; Gatherings</h2>
-            <p className="text-text-muted max-w-md leading-relaxed">Join us at our next gathering. All events are open to the public and free to attend.</p>
+            <p className="text-text-muted max-w-md leading-relaxed">All events are open to the public and free to attend.</p>
           </div>
           <Link to="/events" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-blue no-underline hover:gap-3 transition-all duration-200 whitespace-nowrap">
             View All Events →
@@ -247,20 +246,24 @@ export default function Home() {
         </div>
 
         {/* Cards */}
-        <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          {eventsPreview.map(({ day, month, type, title, venue }) => (
-            <div key={title} className="bg-white rounded-2xl p-6 border border-border-col shadow-bp-sm hover:shadow-bp-md hover:-translate-y-1 transition-all duration-300 reveal">
+        <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          {eventsPreview.map(({ day, month, year, type, title, venue, upcoming }) => (
+            <div key={`${day}-${month}-${year}`} className={`bg-white rounded-2xl p-6 border border-border-col shadow-bp-sm hover:shadow-bp-md hover:-translate-y-1 transition-all duration-300 reveal ${upcoming ? 'opacity-60' : ''}`}>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 bg-primary-blue rounded-xl flex flex-col items-center justify-center text-white flex-shrink-0">
+                <div className={`w-14 h-14 rounded-xl flex flex-col items-center justify-center text-white flex-shrink-0 ${upcoming ? 'bg-gray-400' : 'bg-primary-blue'}`}>
                   <span className="font-heading font-bold text-xl leading-none">{day}</span>
                   <span className="text-[10px] opacity-80 uppercase tracking-wide">{month}</span>
+                  <span className="text-[9px] opacity-60 tracking-wide">{year}</span>
                 </div>
-                <span className="text-xs font-semibold text-primary-blue bg-light-blue px-3 py-1 rounded-full">{type}</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-xs font-semibold text-primary-blue bg-light-blue px-3 py-1 rounded-full">{type}</span>
+                  {upcoming && <span className="text-xs font-semibold text-gray-500 bg-gray-100 border border-gray-200 px-3 py-1 rounded-full">Upcoming</span>}
+                </div>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2 leading-snug">{title}</h4>
-              <p className="text-text-muted text-sm mb-4">{venue}</p>
+              <p className="text-text-muted text-sm mb-4">📍 {venue}</p>
               <Link to="/events" className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-dark border border-primary-gold/40 rounded-full px-3.5 py-1.5 no-underline hover:bg-primary-gold hover:text-gray-900 transition-all duration-200">
-                Register →
+                {upcoming ? 'Register →' : 'View Photos →'}
               </Link>
             </div>
           ))}

@@ -43,9 +43,9 @@ export default function Footer() {
           <div className="flex gap-2.5 mt-5">
             {[
               { Icon: FacebookIcon, label: 'Facebook', href: '#' },
-              { Icon: InstagramIcon, label: 'Instagram', href: 'https://www.instagram.com/bibletrivia' },
+              { Icon: InstagramIcon, label: 'Instagram', href: 'https://www.instagram.com/biblepeediainternational/' },
               { Icon: YouTubeIcon, label: 'YouTube', href: '#' },
-              { Icon: TikTokIcon, label: 'TikTok', href: 'https://www.tiktok.com/@Biblepeedia' },
+              { Icon: TikTokIcon, label: 'TikTok', href: 'https://www.tiktok.com/@biblepeedia' },
             ].map(({ Icon, label, href }) => (
               <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/70 no-underline hover:bg-primary-gold hover:text-gray-900 hover:border-primary-gold transition-all duration-200">
                 <Icon />
@@ -66,11 +66,11 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Programs */}
+        {/* Get Involved */}
         <div>
-          <h4 className="font-semibold text-white text-sm mb-4">Programs</h4>
+          <h4 className="font-semibold text-white text-sm mb-4">Get Involved</h4>
           <ul className="list-none space-y-2.5">
-            {[['Bible Literacy', '/programs'], ["Children's Program", '/programs'], ['School Outreach', '/programs'], ['Radio Ministry', '/programs']].map(([label, to]) => (
+            {[['Volunteer', '/contact'], ['Partner With Us', '/contact'], ['Donate', '/donate'], ['Events', '/events']].map(([label, to]) => (
               <li key={label}>
                 <Link to={to} className="text-white/60 no-underline text-sm hover:text-primary-gold transition-colors duration-200">{label}</Link>
               </li>

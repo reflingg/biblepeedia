@@ -2,20 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useReveal from '../hooks/useReveal'
 
-const contactItems = [
-  { icon: '📍', label: 'Address', value: '12 Gospel Lane, Garki, Abuja, Nigeria' },
-  { icon: '📧', label: 'Email', value: 'hello@biblepeedia.org' },
-  { icon: '📞', label: 'Phone', value: '+234 (0) 800 BIBLE 01' },
-  { icon: '🕐', label: 'Office Hours', value: 'Mon–Fri, 8:00 AM – 5:00 PM' },
-]
-
-const faqs = [
-  { q: 'How can I volunteer with Biblepeedia?', a: 'We welcome volunteers in teaching, outreach, media, administration, and more. Fill out the contact form and mention you\'d like to volunteer — we\'ll get back to you within 48 hours.' },
-  { q: 'Are all your programs really free?', a: 'Yes! All Biblepeedia programs, events, and resources are completely free to participants. We are funded through donations and partnerships.' },
-  { q: 'How can my church partner with Biblepeedia?', a: 'We partner with churches of all denominations and sizes. Reach out via our contact form and we\'ll schedule a meeting to discuss how we can serve your congregation.' },
-  { q: 'Can I request a speaker for my event?', a: 'Yes, we regularly send speakers to church services, school assemblies, and community events. Use the contact form with details of your event and we\'ll do our best to accommodate.' },
-]
-
 export default function Contact() {
   useReveal()
   const [name, setName] = useState('')
@@ -51,37 +37,23 @@ export default function Contact() {
       {/* Contact Grid */}
       <section className="py-24 px-[5vw]">
         <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-16 items-start">
-          {/* Contact Info */}
+
+          {/* Email Info */}
           <div className="reveal">
             <span className="inline-block text-primary-blue text-xs font-semibold tracking-[0.1em] uppercase mb-3">Reach Us</span>
             <h2 className="font-heading text-[clamp(1.8rem,3vw,2.4rem)] font-bold leading-tight tracking-tight mb-5">
               We'd love to hear from you
             </h2>
             <p className="text-text-muted leading-relaxed mb-8">
-              Whether you want to volunteer, partner, donate equipment, or just ask a question — our team is always happy to connect.
+              Whether you want to volunteer, partner, donate, or just ask a question — our team is always happy to connect.
             </p>
-            <ul className="list-none space-y-5 mb-10">
-              {contactItems.map(({ icon, label, value }) => (
-                <li key={label} className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-light-blue rounded-xl flex items-center justify-center text-lg flex-shrink-0">{icon}</div>
-                  <div>
-                    <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-0.5">{label}</div>
-                    <div className="text-sm text-gray-900 font-medium">{value}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/* Social */}
-            <div>
-              <p className="text-sm font-semibold text-gray-800 mb-3">Follow us</p>
-              <div className="flex gap-2.5">
-                {['Facebook', 'Instagram', 'YouTube'].map(s => (
-                  <a key={s} href="#" aria-label={s}
-                    className="w-9 h-9 rounded-full border border-border-col flex items-center justify-center text-text-muted no-underline hover:bg-primary-gold hover:text-gray-900 hover:border-primary-gold transition-all duration-200 text-xs font-bold">
-                    {s[0]}
-                  </a>
-                ))}
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-light-blue rounded-xl flex items-center justify-center text-lg flex-shrink-0">📧</div>
+              <div>
+                <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-0.5">Email</div>
+                <a href="mailto:hello@biblepeedia.org" className="text-sm text-primary-blue font-medium no-underline hover:underline">
+                  hello@biblepeedia.org
+                </a>
               </div>
             </div>
           </div>
@@ -134,26 +106,6 @@ export default function Contact() {
                 </form>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 px-[5vw] bg-surface">
-        <div className="max-w-container mx-auto">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-12 reveal">
-              <span className="inline-block text-primary-blue text-xs font-semibold tracking-[0.1em] uppercase mb-3">Questions</span>
-              <h2 className="font-heading text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold leading-tight tracking-tight">Frequently Asked Questions</h2>
-            </div>
-            <ul className="list-none">
-              {faqs.map(({ q, a }) => (
-                <li key={q} className="border-t border-border-col py-6 first:border-t reveal last:border-b last:border-border-col">
-                  <h4 className="font-semibold text-gray-900 mb-2">{q}</h4>
-                  <p className="text-text-muted text-sm leading-relaxed">{a}</p>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>
